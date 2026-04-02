@@ -199,13 +199,17 @@ nav.scrolled { height:58px; background: rgba(10,10,8,0.98); }
 
 .hero-stats {
   position:absolute; bottom:48px; left:50%; transform:translateX(-50%);
-  display:flex; align-items:center; gap:48px; z-index:2;
+  display:flex; align-items:center; gap:48px; z-index:10;
   opacity:0; animation: fadeUp 0.9s 1s forwards;
+  background: rgba(0,0,0,0.35); backdrop-filter:blur(8px);
+  padding: 16px 36px; border-radius: 60px;
+  border: 1px solid rgba(201,168,76,0.2);
+  white-space: nowrap;
 }
 .hero-stat { text-align:center; }
-.hero-stat-num { font-family:'Playfair Display',serif; font-size:28px; color:var(--gold); font-weight:700; }
-.hero-stat-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--text-dim); margin-top:2px; }
-.hero-divider { width:1px; height:40px; background:var(--border); }
+.hero-stat-num { font-family:'Playfair Display',serif; font-size:28px; color:var(--gold); font-weight:700; text-shadow: 0 2px 12px rgba(0,0,0,0.9); filter: drop-shadow(0 0 8px rgba(201,168,76,0.5)); }
+.hero-stat-label { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.75); margin-top:2px; text-shadow: 0 2px 8px rgba(0,0,0,0.9); }
+.hero-divider { width:1px; height:40px; background:rgba(201,168,76,0.4); }
 
 .scroll-indicator {
   position:absolute; bottom:80px; right:5%; z-index:2;
@@ -1042,9 +1046,9 @@ footer { background:var(--dark-2); border-top:1px solid var(--border); padding:8
   </div>
   <div class="chat-quick-btns" id="quickBtns">
     <button class="chat-quick-btn" onclick="quickChat('Best sellers?')">🔥 Best sellers?</button>
-    <button class="chat-quick-btn" onclick="quickChat('Delivery info?')">🚚 Delivery?</button>
-    <button class="chat-quick-btn" onclick="quickChat('What is Chui Jhal?')">🌿 Chui Jhal?</button>
-    <button class="chat-quick-btn" onclick="quickChat('Wholesale pricing?')">💼 Wholesale?</button>
+    <button class="chat-quick-btn" onclick="quickChat('Delivery to Chittagong?')">🚚 Delivery times?</button>
+    <button class="chat-quick-btn" onclick="quickChat('Difference between Chui Jhal vs regular chili?')">🌿 Chui Jhal vs Chili?</button>
+    <button class="chat-quick-btn" onclick="quickChat('Do you have organic turmeric?')">🌱 Organic turmeric?</button>
   </div>
   <div class="chatbot-input">
     <input type="text" id="chatInput" placeholder="Ask about our spices..." onkeydown="if(event.key==='Enter') sendChat()">
@@ -1671,23 +1675,62 @@ function trackOrder() {
 
 // ======== CHATBOT (enhanced) ========
 const botResponses = {
-  "best seller": "🔥 Our best sellers:\n1. Chui Jhal (Khulna) — ৳1,500/kg\n2. Shatkora (Sylhet) — ৳750/kg\n3. Biryani Spice Blend — ৳450/kg\n\nAll A-grade, direct from source. Want to add any to your cart?",
-  "chui jhal": "🌿 Chui Jhal (Piper chaba) is a rare root spice from Khulna. Warm, earthy heat that transforms beef and mutton. Price: ৳1,200–1,800/kg. Monthly supply is limited — order early!",
-  "shatkora": "🍋 Shatkora is a wild citrus from Sylhet's hills. Used in iconic Shatkora Beef curry — deep, complex sourness with no substitute. Price: ৳600–900/kg.",
-  "delivery": "🚚 We deliver to all 64 districts!\n• Free delivery on orders over ৳1,500\n• Cash on delivery available everywhere\n• Dhaka: 1–2 business days\n• Other cities: 2–4 business days",
-  "price": "💰 Current prices (per kg):\n• Chui Jhal: ৳1,200–1,800\n• Shatkora: ৳600–900\n• Turmeric: ৳280–350\n• Red Chili: ৳450–600\n• Other spices: ৳220–450\nFree delivery over ৳1,500!",
-  "wholesale": "💼 Yes! Wholesale pricing available for shops & restaurants. Minimum 5kg. Monthly revenue potential: ৳3.6–5.1M BDT. Contact:\n📞 +01926240062\n💬 WhatsApp: +8801926240062",
-  "pure": "✅ 100% pure! We source directly from regional farmers — no middlemen. A-grade only, hygienically processed and sealed fresh.",
+  "best seller": "🔥 Our best sellers:\n1. Chui Jhal (Khulna) — ৳490/500g\n2. Shatkora (Sylhet) — ৳750/kg\n3. Biryani Spice Blend — ৳450/kg\n\nAll A-grade, sourced directly. Want to add any to your cart?",
+
+  "chui jhal": "🌿 Chui Jhal (Piper chaba) is a rare woody root spice from Khulna — it looks like small bark or thick woody branches, dark brown in colour.\n\n🔥 Taste: A deep 'warming' heat — like black pepper + ginger + a hint of earthiness. Nothing like regular chili!\n\n💊 Benefits: Aids digestion, reduces gas, soothes stomach inflammation, treats coughs. Considered a traditional medicine luxury.\n\n💰 Price: ৳490 / 500g",
+
+  "difference": "🌿 Chui Jhal vs Regular Chili:\n\n👁 Look:\n• Chui Jhal: Woody brown twigs, stems & roots — like pieces of bark\n• Regular Chili: Colorful fleshy fruit (green, red, yellow)\n\n🔥 Heat:\n• Chui Jhal: Deep warming heat — earthy, like black pepper + ginger + lemon\n• Regular Chili: Direct capsaicin heat — sharp & instant\n\n💊 Benefits:\n• Chui Jhal: Aids digestion, anti-gas, soothes stomach, treats coughs — a medicinal luxury\n• Regular Chili: Vitamin C + capsaicin for metabolism — cheaper & widely available\n\n💰 Price: Chui Jhal is premium & limited supply!",
+
+  "shatkora": "🍋 Shatkora is a wild citrus from Sylhet's hills. Used in the iconic Shatkora Beef curry — deep complex sourness no substitute can match.\n💰 Price: ৳750/kg",
+
+  "chittagong": "🚚 Delivery to Chittagong: 1–2 business days\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery available",
+
+  "khulna": "🚚 Delivery to Khulna: 1–2 business days\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery available",
+
+  "rangpur": "🚚 Delivery to Rangpur: 1–2 business days\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery available",
+
+  "barishal": "🚚 Delivery to Barishal: 1–2 business days\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery available",
+
+  "mymensingh": "🚚 Delivery to Mymensingh: 1–2 business days\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery available",
+
+  "rajshahi": "🚚 Delivery to Rajshahi: 1–2 business days\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery available",
+
+  "delivery": "🚚 We deliver to all 64 districts!\n\n⏱ Delivery Times:\n• Dhaka: 1–2 business days\n• Chittagong, Khulna, Rangpur, Barishal, Mymensingh, Rajshahi: 1–2 business days\n• Remote districts: 2–3 business days\n\n✅ Free delivery on orders over ৳1,500\n💳 Cash on delivery everywhere",
+
+  "organic": "🌱 Our turmeric is 100% natural — stone-ground, sun-dried, no additives or artificial colouring. While we don't carry a certified organic label yet, it is sourced directly from small farms in Rajshahi with no chemical processing. Pure as it gets! 💛",
+
+  "turmeric": "🌟 Pure Turmeric Powder from Rajshahi — stone-ground, deep golden colour, rich in curcumin. No chalk powder, no artificial colour.\n💰 Price: ৳300/kg",
+
+  "price": "💰 Current prices:\n• Chui Jhal: ৳490/500g\n• Shatkora: ৳750/kg\n• Turmeric: ৳300/kg\n• Red Chili: ৳600/kg\n• Cumin Seeds: ৳800–1,300/kg\n• Mustard Seeds: ৳214/500g\n• Biryani Blend: ৳450/kg\n\n🚚 Free delivery over ৳1,500!",
+
+  "wholesale": "💼 Yes! Wholesale pricing for shops & restaurants.\n• Minimum order: 5kg\n• Special pricing on bulk\n📞 +01926240062\n💬 WhatsApp: +8801926240062",
+
+  "pure": "✅ 100% pure! Sourced directly from regional farmers — no middlemen. A-grade only, hygienically processed and sealed fresh.",
+
   "order": "🛒 Order directly here (Add to Cart) or WhatsApp us at +8801926240062 for quick checkout with cash on delivery!",
-  "beef": "🥩 For beef: Chui Jhal for Khulna-style, Shatkora for Sylheti beef. Both are legendary!",
-  "chicken": "🍗 For chicken: Turmeric + Red Chili for curry, Biryani Blend for biryani — all available on the website!",
-  "fish": "🐟 For fish: Mustard seeds (Jessore) + Turmeric. Try our pure mustard for authentic Shorshe Ilish!",
-  "discount": "🎁 Free delivery on orders over ৳1,500. Wholesale discounts for bulk orders — WhatsApp us for special pricing!",
-  "default": "I'm here to help! Ask about:\n• Our products (Chui Jhal, Shatkora, etc.)\n• Prices & delivery\n• Wholesale pricing\n• Recipes & how to use our spices"
+
+  "beef": "🥩 For beef: Chui Jhal for Khulna-style, Shatkora for Sylheti beef. Both legendary choices!",
+
+  "chicken": "🍗 For chicken: Turmeric + Red Chili for curry, Biryani Blend for biryani.",
+
+  "fish": "🐟 For fish: Mustard seeds (Jessore) + Turmeric. Perfect for authentic Shorshe Ilish!",
+
+  "discount": "🎁 Free delivery on orders over ৳1,500. Wholesale discounts for bulk — WhatsApp for special pricing!",
+
+  "default": "I'm here to help! Ask me about:\n• Chui Jhal vs regular chili\n• Delivery times (Chittagong, Khulna, Rajshahi...)\n• Organic turmeric\n• Prices & wholesale\n• Recipes & how to use our spices 🌶"
 };
 
 function getBotReply(msg) {
   const m = msg.toLowerCase();
+  // City-specific delivery shortcuts
+  if(m.includes('chittagong')||m.includes('চট্টগ্রাম')) return botResponses['chittagong'];
+  if(m.includes('khulna')||m.includes('খুলনা')) return botResponses['khulna'];
+  if(m.includes('rangpur')||m.includes('রংপুর')) return botResponses['rangpur'];
+  if(m.includes('barishal')||m.includes('barisal')||m.includes('বরিশাল')) return botResponses['barishal'];
+  if(m.includes('mymensingh')||m.includes('ময়মনসিংহ')) return botResponses['mymensingh'];
+  if(m.includes('rajshahi')||m.includes('রাজশাহী')) return botResponses['rajshahi'];
+  if(m.includes('differ')||m.includes('vs')||m.includes('versus')||m.includes('compare')||m.includes('regular chili')) return botResponses['difference'];
+  if(m.includes('organic')||m.includes('natural')||m.includes('chemical')) return botResponses['organic'];
   for(const [key, val] of Object.entries(botResponses)) {
     if(m.includes(key)) return val;
   }
