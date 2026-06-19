@@ -1,5 +1,8 @@
 # DeshiSpices BD: A Framework-Free E-Commerce Architecture with Integrated State Machines & Natural Language Automation
 live link: https://bikash-20.github.io/Desi-Spicy-business-website/
+<img width="1274" height="712" alt="image" src="https://github.com/user-attachments/assets/16c2cc61-6f98-4374-8ce2-a233756491dd" />
+<img width="1280" height="712" alt="image" src="https://github.com/user-attachments/assets/1df12192-1cbf-4fba-9229-0e7f352ff97a" />
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](https://opensource.org/licenses/MIT)
 [![Tech Stack](https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20HTML5%20%7C%20CSS3-C9A84C.svg)](#)
